@@ -1,0 +1,9 @@
+{
+    "teledisq": {
+      "mainfeed": "-100123456789",
+      "admin": "@user",
+      "base": "https://exmaple.com",
+      "robotoken": "123456789:ABCDEF",
+      "secret": "sEcReT"
+    }
+  }
