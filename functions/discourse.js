@@ -1,5 +1,6 @@
 const util = require('util');
-const h2p = require('html2plaintext');
+const TurndownService = require('turndown')
+const turndownService = new TurndownService()
 const resources = require('./resources'); 
 
 function newUpdateMessage(event, payload) {
@@ -22,7 +23,7 @@ function newUpdateMessage(event, payload) {
                         url: url
                     }]
                 ]
-            }
+            };
             break;
         case resources.constants.events.post.edited.name:
             url = resources.config.base + '/t/' + payload.post.topic_slug + '/' + payload.post.topic_id + '/' + payload.post.post_number;
@@ -41,7 +42,7 @@ function newUpdateMessage(event, payload) {
                         url: url
                     }]
                 ]
-            }
+            };
             break;
         default:
             text = resources.constants.default.text;
@@ -52,14 +53,14 @@ function newUpdateMessage(event, payload) {
                         url: 'https://t.me/' + resources.config.admin
                     }]
                 ]
-            }
+            };
             break;
     }
     return {
         chat_id: resources.config.mainFeed,
         disable_notification: true,
         text: text,
-        parse_mode: 'HTML',
+        parse_mode: 'MarkdownV2',
         reply_markup: inline
     }
 }
@@ -67,24 +68,14 @@ function newUpdateMessage(event, payload) {
 function isSystemUpdate(headers, payload) { 
     if (headers[resources.constants.header.event] === resources.constants.events.post.created.name ||
         headers[resources.constants.header.event] === resources.constants.events.post.edited.name) {
-        
-        if (payload.post === undefined) { 
-            return true;
-        }
-        
-        if (payload.post.usename === 'system') {
-            return true;
-        }
-        if (payload.post.edit_reason !== null) {
-            return true;
-        }
-        return false;
+
+        return payload.post === undefined || payload.post.usename === 'system' || payload.post.edit_reason !== null;
     }
     return true;
 }
 
 function displayableCooked(cooked) {
-    const str = h2p(h2p(cooked));
+    const str = turndownService.turndown(cooked);
     if (str.length > 280) { 
         return str.substring(0, 279) + ' ...'
     }
@@ -100,4 +91,4 @@ module.exports = {
 
         return newUpdateMessage(headers[resources.constants.header.event], payload);
     }
-}
+};

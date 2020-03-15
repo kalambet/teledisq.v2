@@ -27,20 +27,20 @@ module.exports = {
             post: {
                 created: {
                     name: 'post_created',
-                    text: '📋 <b>%s</b> написал новый пост ↓ в тему <b>%s</b>:\n<code>---</code>\n%s\n<code>---</code>\nLink: %s',
+                    text: '📋 *%s* wrote a new post ↓ in topic *%s*:\n%s\nLink: %s',
                 },
                 edited: {
                     name: 'post_edited',
-                    text: '✏️ <b>%s</b> обновил пост ↓ в тему <b>%s</b>:\n<code>---</code>\n%s\n<code>---</code>\nLink: %s',
+                    text: '✏️ *%s* updated post ↓ in topic *%s*:\n%s\nLink: %s',
                 }
             },
             default: {
-                text: functions.config().teledisq.admin + ', что-то не так',
-                button: 'Написать'
+                text: functions.config().teledisq.admin + ', something is wrong',
+                button: 'Write'
             }
         },
         misc: {
-            button: 'Посмотреть'
+            button: 'View'
         }
     }
-}
+};

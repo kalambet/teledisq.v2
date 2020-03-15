@@ -50,7 +50,6 @@ exports.update = functions.https.onRequest((request, response) => {
     if (message === null) { 
         console.log('Looks like a message we don\'t need');
         response.status(200).send('OK');
-        return;
     }
 
     console.log('Message: \n' + util.inspect(message, {depth: 5}));
@@ -62,6 +61,5 @@ exports.update = functions.https.onRequest((request, response) => {
     }).catch((e) => {
         console.log("Can't send message to telegram: " + e);
         response.status(500).send(e);
-        return;
     });
 });
